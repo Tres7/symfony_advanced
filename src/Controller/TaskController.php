@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Security\Voter\TaskVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,9 +49,11 @@ class TaskController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit_task')]
-    public function edit(int $id, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(Task $task, int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $task = $entityManager->getRepository(Task::class)->find($id);
+//        $task = $entityManager->getRepository(Task::class)->find($id);
+        $this->denyAccessUnlessGranted(TaskVoter::EDIT, $task);
+
 
         if (!$task) {
             throw $this->createNotFoundException('La tâche demandée n\'existe pas.');
@@ -75,9 +78,11 @@ class TaskController extends AbstractController
     }
 
     #[Route('/view/{id}', name: 'view_task')]
-    public function view(int $id, EntityManagerInterface $entityManager): Response
+    public function view(Task $task,int $id, EntityManagerInterface $entityManager): Response
     {
-        $task = $entityManager->getRepository(Task::class)->find($id);
+//        $task = $entityManager->getRepository(Task::class)->find($id);
+        $this->denyAccessUnlessGranted(TaskVoter::VIEW, $task);
+
 
         if (!$task) {
             throw $this->createNotFoundException('La tâche demandée n\'existe pas.');
@@ -89,10 +94,11 @@ class TaskController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete_task', methods: ['POST'])]
-    public function delete(int $id, EntityManagerInterface $entityManager): Response
+    public function delete(Task $task,int $id, EntityManagerInterface $entityManager): Response
     {
-        $task = $entityManager->getRepository(Task::class)->find($id);
+//        $task = $entityManager->getRepository(Task::class)->find($id);
 
+        $this->denyAccessUnlessGranted(TaskVoter::DELETE, $task);
         if (!$task) {
             throw $this->createNotFoundException('La tâche demandée n\'existe pas.');
         }
