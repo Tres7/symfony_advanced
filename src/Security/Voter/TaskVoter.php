@@ -19,7 +19,9 @@ final class  TaskVoter extends Voter{
         // https://symfony.com/doc/current/security/voters.html
 //        return in_array($attribute, [self::EDIT, self::VIEW])
 //            && $subject instanceof \App\Entity\Task;
-        return $attribute === self::EDIT && $subject instanceof Post;
+//        return $attribute === self::EDIT && $subject instanceof Task;
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE]) && $subject instanceof Task;
+
 
     }
 

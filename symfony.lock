@@ -38,9 +38,6 @@
             "migrations/.gitignore"
         ]
     },
-    "knplabs/knp-paginator-bundle": {
-        "version": "v6.6.1"
-    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -302,9 +299,6 @@
         "files": [
             "config/packages/messenger.yaml"
         ]
-    },
-    "symfonycasts/tailwind-bundle": {
-        "version": "v0.6.1"
     },
     "twig/extra-bundle": {
         "version": "v3.12.0"

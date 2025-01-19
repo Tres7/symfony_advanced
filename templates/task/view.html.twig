@@ -1,12 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Détails de la tâche</h1>
-    <p><strong>Nom :</strong> {{ task.name }}</p>
-    <p><strong>Description :</strong> {{ task.description }}</p>
-    <p><strong>Auteur :</strong> {{ task.author ? task.author.email : 'Anonyme' }}</p>
-    <p><strong>Date de création :</strong> {{ task.createdAt|date('d/m/Y H:i') }}</p>
-    <p><strong>Dernière mise à jour :</strong> {{ task.updatedAt|date('d/m/Y H:i') }}</p>
-    <a href="{{ path('edit_task', { id: task.id }) }}">Modifier</a>
-    <a href="{{ path('index_task') }}">Retour</a>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h1 class="h4">Détails de la tâche</h1>
+            </div>
+            <div class="card-body">
+                <p><strong>Nom :</strong> {{ task.name }}</p>
+                <p><strong>Description :</strong> {{ task.description }}</p>
+                <p><strong>Auteur :</strong> {{ task.author ? task.author.email : 'Anonyme' }}</p>
+                <p><strong>Date de création :</strong> {{ task.createdAt|date('d/m/Y H:i') }}</p>
+                <p><strong>Dernière mise à jour :</strong> {{ task.updatedAt|date('d/m/Y H:i') }}</p>
+            </div>
+            <div class="card-footer text-end">
+                <a href="{{ path('edit_task', { id: task.id }) }}" class="btn btn-warning btn-sm me-2">Modifier</a>
+                <a href="{{ path('index_task') }}" class="btn btn-secondary btn-sm">Retour</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

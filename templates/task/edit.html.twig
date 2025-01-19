@@ -1,10 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Modifier une tâche</h1>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Mettre à jour</button>
-    {{ form_end(form) }}
-    <a href="{{ path('index_task') }}">Retour</a>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h1 class="h4">Modifier une tâche</h1>
+            </div>
+            <div class="card-body">
+                {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+                <div class="col-md-6">
+                    {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.createdAt, 'Date de création', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.createdAt, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.updatedAt, 'Dernière mise à jour', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.updatedAt, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.author, 'Auteur', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.author, {'attr': {'class': 'form-select'}}) }}
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                    <a href="{{ path('index_task') }}" class="btn btn-secondary">Retour</a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
