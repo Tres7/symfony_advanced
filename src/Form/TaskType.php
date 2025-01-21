@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Task;
 use App\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,11 +17,15 @@ class TaskType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('createdAt', null, [
-                'widget' => 'single_text'
+            ->add('createdAt', DateTimeType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date de création',
+                'required' => false,
             ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text'
+            ->add('updatedAt', DateTimeType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date de mise à jour',
+                'required' => false,
             ])
             ->add('author', EntityType::class, [
                 'class' => User::class,
