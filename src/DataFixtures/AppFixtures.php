@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -17,6 +18,31 @@ class AppFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
+        $user = new User();
+        $user->setEmail('test@gmail.com');
+        $user->setPassword($this->passwordHasher->hashPassword(
+            $user,
+            'password'
+        ));
+        $manager->persist($user);
+
+        $taskRecent = new Task();
+        $taskRecent->setName('Tâche récente');
+        $taskRecent->setDescription('Tâche créée il y a 3 jours.');
+        $taskRecent->setAuthor($user);
+        $taskRecent->setCreatedAt(new \DateTime('-3 days'));
+        $taskRecent->setUpdatedAt(new \DateTime());
+        $manager->persist($taskRecent);
+
+        $taskOld = new Task();
+        $taskOld->setName('Tâche ancienne');
+        $taskOld->setDescription('Tâche créée il y a 10 jours.');
+        $taskOld->setAuthor($user);
+        $taskOld->setCreatedAt(new \DateTime('-10 days'));
+        $taskOld->setUpdatedAt(new \DateTime());
+        $manager->persist($taskOld);
+
+
         $user1= new User();
         $user1->setEmail('user1@gmail.com');
         $user1->setPassword($this->passwordHasher->hashPassword(

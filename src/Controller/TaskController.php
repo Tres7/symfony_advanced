@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Security\Voter\TaskVoter;
+use App\Service\TaskService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,7 +48,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit_task')]
-    public function edit(Task $task, int $id, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(Task $task, int $id, Request $request, EntityManagerInterface $entityManager, TaskService $taskService): Response
     {
         try {
             $this->denyAccessUnlessGranted(TaskVoter::EDIT, $task);
@@ -55,6 +56,12 @@ class TaskController extends AbstractController
             $this->addFlash('error', 'Vous n\'avez pas le droit de modifier cette tâche.');
             return $this->redirectToRoute('index_task');
         }
+        //verify if the task can be edited
+        if (!$taskService->canEdit($task)) {
+            $this->addFlash('error', 'Cette tâche ne peut pas être modifiée car elle a été créée il y a plus de 7 jours.');
+            return $this->redirectToRoute('index_task');
+        }
+
 
         if (!$task) {
             throw $this->createNotFoundException('La tâche demandée n\'existe pas.');
@@ -64,7 +71,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $task->setUpdatedAt(new \DateTimeImmutable());
+            $task->setUpdatedAt(new \DateTime());
             $entityManager->flush();
 
             $this->addFlash('success', 'Tâche mise à jour avec succès.');
